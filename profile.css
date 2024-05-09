@@ -1,0 +1,171 @@
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #008080 !important;
+    font-family: 'Cantata One', serif;
+}
+
+img
+{
+    position: absolute;
+    top: 20px;
+    height: 100px;
+}
+.figura
+{
+    width: 30%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #daa520;
+    border-radius: 25px;
+    box-shadow: 0px 15px 5px 0px rgba(0,0,0,0.40);
+    position: relative;
+    animation: marea 3.85s infinite ease-in-out;
+}
+
+@keyframes marea {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.figuras-inf {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+  
+    .figuras-inf i {
+        font-size: 19px;
+        margin: 0 10px;
+        transition: transform 0.2s ease;
+    }
+
+    .figuras-inf i:hover {
+        transform: translateY(-8px); /* Ajusta este valor según tus necesidades */
+      }
+      .Ingresar {
+        color: white;
+        font-size: 25px;
+        width: 35%;
+        height: 12%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #FF0000;
+        border-radius: 20px;
+        margin-bottom: 70px;
+        position: relative;
+        box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.40);
+        top: 100px; /* Ajusta la posición vertical según sea necesario */
+        transition: transform 0.3s ease; /* Agregar transición para suavizar el efecto */
+    }
+    
+    @keyframes breatheIngresar {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    .Ingresar:hover {
+        animation: breatheIngresar 2s infinite; /* Aplicar la animación al pasar el cursor */
+        transform: top(100px) scale(1.1); /* Mover y agrandar el elemento al pasar el cursor */
+    }
+    
+    
+.Correo
+{
+    width: 70%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF0000;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    position: relative;
+    box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.40);
+    border: none;
+    font-size: 16px;
+    padding-left: 15px;
+    top: 205px;
+}
+
+.password {
+    width: 70%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF0000;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    position: relative;
+    box-shadow: 0px 5px 5px 1px rgba(0,0,0,0.40);
+    border: none;
+    font-size: 16px;
+    padding-left: 15px;
+    top: 170px; /* Ajusta la posición vertical según sea necesario */
+}
+    .figura .mensaje-correo {
+    position: absolute;
+    top: 150px; /* Ajusta este valor según tus necesidades */
+    left: 0;
+    width: 100%;
+    margin-left: 70px;
+    }
+
+    .figura .mensaje-password {
+        position: absolute;
+        top: 275px; /* Ajusta este valor según tus necesidades */
+        left: 0;
+        width: 100%;
+        margin-left: -60px;
+        text-align: center;
+    }
+    .figura .olvidada-password {
+        position: absolute;
+        top: 505px;
+        left: 50%;
+        width: 100%;
+        font-size: 13px;
+        transform: translateX(-50%);
+        display: block;
+        text-align: center;
+        transform-origin: center; /* Establecer el origen de la transformación en el centro */
+        transition: transform 0.3s ease; /* Agregar transición para suavizar el efecto */
+    }
+    
+    .olvidada-password:hover {
+        color: white;
+        transform: translateX(-50%) scale(1.1); /* Mover y escalar el elemento */
+        transform-origin: center; /* Mantener el origen de la transformación en el centro */
+        font-weight: bold;
+    }
+    
+    .Correo::placeholder, .password::placeholder {
+        font-style: italic;
+        color: white;
+    }
+    
+    .Correo:focus, .password:focus {
+        outline: none;
+    }
+    
+    
+    @keyframes breathe {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+      
+      .password:focus, .Correo:focus {
+        animation: breathe 2s infinite;
+      }

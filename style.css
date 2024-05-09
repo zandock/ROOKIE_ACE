@@ -1,0 +1,320 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.main{
+    background-color: #d5ffe2 !important;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 0;
+    gap: 20px;
+    min-height: 100vh;  /* Esta línea será sobrescrita por min-height: 100vh; */
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    min-height: 100vh;  /* Esta línea sobrescribe min-height: 200vh; */
+}
+
+.box-container {
+    margin-right: 20px; 
+}
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.wrapper {
+    display: flex;
+    
+}
+
+
+#sidebar {
+    width: 70px;
+    min-width: 70px;
+    z-index: 1000;
+    transition: all .290s ease-in-out;
+    background-color: #15482f !important;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar.expand {
+    width: 260px;
+    min-width: 260px;
+}
+
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+.toggle-btn i {
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+.sidebar-logo {
+    margin: auto 0;
+}
+
+.sidebar-logo a {
+    color: #FFF;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span {
+    display: none;
+    
+}
+
+.sidebar-nav {
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #FFF;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link i {
+    font-size: 1.1rem;
+    margin-right: .75rem;
+}
+
+a.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, .075);
+    border-left: 3px solid #3b7ddd;
+}
+
+.sidebar-item {
+    position: relative;
+}
+
+#sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
+    position: absolute;
+    top: 0;
+    left: 70px;
+    background-color: #0e2238;
+    padding: 0;
+    min-width: 15rem;
+    display: none;
+}
+
+#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
+    display: block;
+    max-height: 15em;
+    width: 100%;
+    opacity: 1;
+}
+
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
+
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+.display-3 {
+    text-align: left;
+    font-size: 2rem;
+    margin-left: 10px;
+}
+
+.fa-regular {
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.elevate {
+    transition: transform 0.3s ease,  box-shadow 0.3s ease;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.6);
+  }
+  
+  .elevate:hover {
+    transform: translateY(-25px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+  }
+
+.d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+.my-title
+{
+    text-shadow: 2px 2px 1px #00000057;
+    color: white !important;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.my-popup
+{
+    background-color: #008080 !important;
+    border-radius: 25px !important;
+    box-shadow: 0 0 10px #00000057 !important;
+    border-color: 2px  #daa520 !important;
+
+}
+
+
+
+.my-confirm {
+    background-color: #daa520 !important;
+    border-radius: 25px;
+    box-shadow: 0px 1px 1px 0px #000000;
+}
+
+.my-confirm:hover 
+{
+    background-color: #daa520 !important;
+    animation: expandContract 1s ease-in-out infinite;
+}
+
+@keyframes expandContract {
+    0%, 100% {
+        transform: scale(1); /* El botón comienza y termina en su tamaño original */
+    }
+    50% {
+        transform: scale(1.1); /* El botón se expande en un 10% en la mitad de la animación */
+    }
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
+  
+.my-cancel-button
+  {
+    background-color: red !important;
+    border-radius: 25px;
+    box-shadow: 0px 1px 1px 0px #000000;
+  }
+
+  .my-cancel-button:hover
+  {
+    animation: shake 0.8s;
+    animation-iteration-count: infinite;
+  }
+  
+.my-input
+{
+    border-radius: 25px !important;
+    background-color: #daa520 !important;
+    color: white !important;
+    border: 2px solid white !important;
+}
+
+.my-input:focus {
+    border-color: #daa520 !important; /* Cambia el color del borde a negro cuando el input está seleccionado */
+    box-shadow: 0px 1px 1px 0px #000000 !important;
+}
+
+.swal2-confirm 
+{
+    background-color: red !important;
+    box-shadow: 0px 3px 0px 0px #00000018;
+}
+
+.swal2-confirm:hover
+{
+    animation: shake 0.8s;
+    animation-iteration-count: infinite;
+    background-color: red !important;
+}
+
+.swal2-cancel 
+{
+    box-shadow: 0px 3px 0px 0px #00000018;
+    background-color: #daa520 !important;
+    color: white !important;
+}
+
+.swal2-cancel:hover
+{
+    animation: expandContract 1s ease-in-out infinite;
+}
+
+
+.swal2-title 
+{
+    text-shadow: 2px 2px 1px #00000057;
+    color: white;
+}
+
+.swal2-content 
+{
+    color: white;
+}
+.swal2-popup 
+{
+    background-color: #008080 !important;
+    border-radius: 20px !important;
+    box-shadow: 0px 8px 2px 0px #3434341e;
+    color: white;
+}
+
+.swal2-icon.swal2-warning .swal2-icon-content {
+    color: #daa520 !important; 
+}
+.swal2-icon.swal2-warning {
+    border-color: #daa520 !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-line-tip,
+.swal2-icon.swal2-success .swal2-success-line-long {
+    background-color: #daa520 !important;
+}
+.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: #daa520 !important;
+}

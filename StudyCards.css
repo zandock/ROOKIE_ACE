@@ -1,0 +1,14 @@
+.no-transform {
+    transform: none !important;
+}
+.subject-hidden {
+    position: relative;
+    z-index: 0;
+}
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
