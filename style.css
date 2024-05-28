@@ -288,8 +288,8 @@ a.sidebar-link:hover {
 
 .swal2-title 
 {
-    text-shadow: 2px 2px 1px #00000057;
     color: white;
+    text-shadow: 2px 2px 1px #00000057;
 }
 
 .swal2-content 
@@ -304,6 +304,17 @@ a.sidebar-link:hover {
     color: white;
 }
 
+.swal2-file {
+    border: 2px solid transparent !important;/* Borde verde */
+    padding: 10px; /* Espaciado interno */
+    color:white;
+    background-color: #000000;
+    border-radius: 100px; /* Bordes redondeados */
+    background: transparent;
+    margin: 10px 0; /* Margen superior e inferior */
+}
+
+
 .swal2-icon.swal2-warning .swal2-icon-content {
     color: #daa520 !important; 
 }
@@ -317,4 +328,8 @@ a.sidebar-link:hover {
 }
 .swal2-icon.swal2-success .swal2-success-ring {
     border-color: #daa520 !important;
+}
+.swal2-textarea {
+    height: 550px !important;
+    width: 800px !important;
 }

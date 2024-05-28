@@ -1,3 +1,5 @@
+import {createPendientes} from "pendientes.js";
+
 const calendar = document.querySelector(".calendar"),
   date = document.querySelector(".date"),
   daysContainer = document.querySelector(".days"),
@@ -15,7 +17,8 @@ const calendar = document.querySelector(".calendar"),
   addEventTitle = document.querySelector(".event-name "),
   addEventFrom = document.querySelector(".event-time-from "),
   addEventTo = document.querySelector(".event-time-to "),
-  addEventSubmit = document.querySelector(".add-event-btn ");
+  addEventSubmit = document.querySelector(".add-event-btn "),
+  addEventTitle2 = document.querySelector(".event-materia ");
 
 let today = new Date();
 let activeDay;
@@ -288,6 +291,10 @@ addEventTitle.addEventListener("input", (e) => {
   addEventTitle.value = addEventTitle.value.slice(0, 60);
 });
 
+addEventTitle2.addEventListener("input", (e) => {
+  addEventTitle2.value = addEventTitle2.value.slice(0, 60);
+});
+
 function defineProperty() {
   var osccred = document.createElement("div");
   osccred.style.position = "absolute";
@@ -330,9 +337,10 @@ addEventTo.addEventListener("input", (e) => {
 //function to add event to eventsArr
 addEventSubmit.addEventListener("click", () => {
   const eventTitle = addEventTitle.value;
+  const eventTitle2 = addEventTitle2.value;
   const eventTimeFrom = addEventFrom.value;
   const eventTimeTo = addEventTo.value;
-  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
+  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "" || eventTitle2 === "") {
     alert("Porfavor llena todos los campos");
     return;
   }
@@ -408,12 +416,34 @@ addEventSubmit.addEventListener("click", () => {
   addEventTitle.value = "";
   addEventFrom.value = "";
   addEventTo.value = "";
+  addEventTitle2.value = "";
   updateEvents(activeDay);
+
+  
+
   //select active day and add event class if not added
   const activeDayEl = document.querySelector(".day.active");
   if (!activeDayEl.classList.contains("event")) {
     activeDayEl.classList.add("event");
   }
+
+  // Guardar la información del evento en localStorage
+  const pendingEvents = JSON.parse(localStorage.getItem("pendingEvents")) || [];
+  pendingEvents.push({
+    title: eventTitle,
+    subject: eventTitle2, // Aquí puedes ajustar cómo obtienes la materia
+    date: `${activeDay}-${month + 1}-${year}`,
+    time: `${eventTimeFrom} - ${eventTimeTo}`
+  });
+  localStorage.setItem("pendingEvents", JSON.stringify(pendingEvents));
+
+  // Convertir los datos a una cadena de consulta
+  const queryParams = `?title=${encodeURIComponent(eventTitle)}&subject=${encodeURIComponent(eventTitle2)}&date=${encodeURIComponent(`${activeDay}-${month + 1}-${year}`)}&time=${encodeURIComponent(`${eventTimeFrom} - ${eventTimeTo}`)}`;
+
+  // Redirigir a la página de pendientes con los datos en la URL
+  //window.location.href = `pendientes.html${queryParams}`;
+  localStorage.setItem("queryParams", queryParams);
+  createPendientes(eventTitle, eventTitle2, `${activeDay}-${month + 1}-${year}`, `${eventTimeFrom} - ${eventTimeTo}`);
 });
 
 //function to delete event when clicked on event

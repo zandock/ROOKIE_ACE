@@ -8,9 +8,11 @@ sideBar.addEventListener("mouseout", function () {
   sideBar.classList.remove("expand");
 });
 
-
 var containers = [];
 var addButton = document.querySelector('.fa-regular.fa-square-plus');
+addButton.style.position = 'absolute';
+addButton.style.top = '16px';
+addButton.style.fontSize = '40px';
 
 addButton.addEventListener('mouseover', function() {
   addButton.style.transform = 'scale(1.2)';
@@ -22,14 +24,18 @@ addButton.addEventListener('mouseout', function() {
 
 addButton.addEventListener('click', function() {
   var container;
-  if (containers.length === 0 || containers[containers.length - 1].children.length === 7) {
+  document.querySelector('.main').style.display = 'flex';
+  document.querySelector('.main').style.flexDirection = 'row';
+  document.querySelector('.main').style.flexWrap = 'nowrap';
+  document.querySelector('.main').style.overflowX = 'auto';
+
+  if (containers.length === 0 || containers[containers.length - 1].children.length === 4) {
     container = document.createElement('div');
     container.style.display = 'flex';
     container.style.flexDirection = 'column';
     container.style.width = '120px';
-    container.style.marginRight = '60px';
-    container.style.marginLeft = '20px';
-    container.style.marginTop = '100px';
+    container.style.marginRight = '300px';
+    container.style.marginTop = '120px';
     document.querySelector('.main').appendChild(container);
     containers.push(container);
   } else {
@@ -54,14 +60,14 @@ addButton.addEventListener('click', function() {
     onOpen: () => {
       const input = Swal.getInput();
       input.addEventListener('focus', function() {
-          this.placeholder = '';
+        this.placeholder = '';
       });
       input.addEventListener('blur', function() {
-          this.placeholder = 'Nombre de la asignatura';
+        this.placeholder = 'Nombre de la asignatura';
       });
-  }
+    }
   }).then((result) => {
-    if (result.isConfirmed) {
+    if (result.isConfirmed && result.value.trim() !== '') {
       var name = result.value;
       var newElement = document.createElement('div');
       newElement.textContent = name;
@@ -69,15 +75,15 @@ addButton.addEventListener('click', function() {
       var newListItem = document.createElement('li');
       newListItem.className = 'sidebar-item';
       var newLink = document.createElement('a');
-      newLink.href = '#';
+      newLink.href = 'pagina_materia.html';
       newLink.className = 'sidebar-link';
       newLink.textContent = name;
       newListItem.appendChild(newLink);
 
       document.querySelector('#auth').appendChild(newListItem);
 
-      newElement.style.width = '170px';
-      newElement.style.height = '100px';
+      newElement.style.width = '400px';
+      newElement.style.height = '200px';
       newElement.style.padding = '10px';
       newElement.style.position = 'relative';
       newElement.style.marginTop = '-30px';
@@ -86,10 +92,13 @@ addButton.addEventListener('click', function() {
       newElement.style.fontSize = '20px';
       newElement.style.color = 'white';
       newElement.style.boxShadow = '0px 20px 40px rgba(0, 0, 0, 0.19), 0px 16px 6px rgba(0, 0, 0, 0.23)';
-      newElement.className = 'elevate'; 
+      newElement.style.fontSize = '40px';
+      newElement.className = 'elevate';
 
       newElement.addEventListener('click', function() {
-        window.location.href = 'http://www.example.com';
+        const bgColor = encodeURIComponent(newElement.style.backgroundColor);
+        const subjectName = encodeURIComponent(name);
+        window.location.href = `pagina_materia.html?color=${bgColor}&name=${subjectName}`;
       });
 
       var deleteButton = document.createElement('button');

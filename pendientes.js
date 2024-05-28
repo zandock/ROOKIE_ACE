@@ -1,10 +1,16 @@
-function createPendientes()
-{
+//const queryParams = new URLSearchParams(localStorage.getItem("queryParams"));
+// Ahora puedes obtener los valores de los parámetros de la misma manera que antes
+//const title = queryParams.get('title');
+//const subject = queryParams.get('subject');
+//const date = queryParams.get('date');
+//const time = queryParams.get('time');
+
+export function createPendientes(title, subject, date, time) {
     const container = document.querySelector('.container');
     const pendiente = document.createElement('div');
     pendiente.classList.add('pendiente');
     pendiente.style.position = 'relative';
-    pendiente.textContent = 'Pendiente';
+    pendiente.textContent = title;
     pendiente.style.display = 'flex';
     pendiente.style.justifyContent = 'left';
     pendiente.style.paddingLeft = '40px';
@@ -21,7 +27,7 @@ function createPendientes()
 
     const pendienteTema = document.createElement('div');
     pendienteTema.style.position = 'absolute';
-    pendienteTema.textContent = 'Tema';
+    pendienteTema.textContent = subject;
     pendienteTema.style.fontSize = '20px';
     pendienteTema.style.justifyContent = 'center';
     pendienteTema.style.alignItems = 'center';
@@ -33,7 +39,6 @@ function createPendientes()
     pendienteTema.style.borderRadius = '17px'; // Convierte el cuadrado en un círculo
     pendienteTema.style.boxShadow = '0px 1px 5px 5px rgba(0,0,0,0.20)';
     pendienteTema.style.backgroundColor = darkenRGB(pendiente.style.backgroundColor, 10); // Oscurece el color del fondo
-    //pendienteTema.style.boxShadow = '5px 5px 4px 1px rgba(0,0,0,0.30)'; // Agrega una sombra
 
     pendiente.addEventListener('mouseover', () => {
         pendiente.style.transform = 'translateY(-10px)'; // Mueve el elemento 10px hacia arriba
@@ -60,10 +65,9 @@ function createPendientes()
 
     container.appendChild(pendiente);
     pendiente.appendChild(pendienteTema);
-
 }
 
-createPendientes();
+createPendientes(title, subject, date, time);
 
 function darkenRGB(rgb, percent) {
     var rgbValues = rgb.match(/\d+/g);
