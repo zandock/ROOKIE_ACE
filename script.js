@@ -14,20 +14,72 @@ addButton.style.position = 'absolute';
 addButton.style.top = '16px';
 addButton.style.fontSize = '40px';
 
-addButton.addEventListener('mouseover', function() {
+addButton.addEventListener('mouseover', function () {
   addButton.style.transform = 'scale(1.2)';
 });
 
-addButton.addEventListener('mouseout', function() {
+addButton.addEventListener('mouseout', function () {
   addButton.style.transform = 'scale(1)';
 });
 
-addButton.addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('/materias', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const subjects = data.subjects;
+        subjects.forEach(subject => {
+          displaySubject(subject.nombre_materia);
+        });
+      } else {
+        console.error('Error fetching subjects:', data.message);
+      }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function displaySubject(name) {
+  const container = getOrCreateContainer();
+
+  var newElement = document.createElement('div');
+  newElement.textContent = name;
+  newElement.setAttribute('data-subject-name', name); 
+
+  var newListItem = document.createElement('li');
+  newListItem.className = 'sidebar-item';
+  var newLink = document.createElement('a');
+  newLink.href = 'pagina_materia.html';
+  newLink.className = 'sidebar-link';
+  newLink.textContent = name;
+  newListItem.appendChild(newLink);
+
+  document.querySelector('#auth').appendChild(newListItem);
+
+  styleNewElement(newElement);
+
+  newElement.addEventListener('click', function () {
+    const bgColor = encodeURIComponent(newElement.style.backgroundColor);
+    const subjectName = encodeURIComponent(name);
+    window.location.href = `pagina_materia.html?color=${bgColor}&name=${subjectName}`;
+  });
+
+  var deleteButton = createDeleteButton(newElement, newListItem);
+  newElement.appendChild(deleteButton);
+  container.appendChild(newElement);
+}
+
+function getOrCreateContainer() {
   var container;
-  document.querySelector('.main').style.display = 'flex';
-  document.querySelector('.main').style.flexDirection = 'row';
-  document.querySelector('.main').style.flexWrap = 'nowrap';
-  document.querySelector('.main').style.overflowX = 'auto';
+  const main = document.querySelector('.main');
+  main.style.display = 'flex';
+  main.style.flexDirection = 'row';
+  main.style.flexWrap = 'nowrap';
+  main.style.overflowX = 'auto';
 
   if (containers.length === 0 || containers[containers.length - 1].children.length === 4) {
     container = document.createElement('div');
@@ -36,11 +88,93 @@ addButton.addEventListener('click', function() {
     container.style.width = '120px';
     container.style.marginRight = '300px';
     container.style.marginTop = '120px';
-    document.querySelector('.main').appendChild(container);
+    main.appendChild(container);
     containers.push(container);
   } else {
     container = containers[containers.length - 1];
   }
+
+  return container;
+}
+
+function styleNewElement(element) {
+  element.style.width = '400px';
+  element.style.height = '200px';
+  element.style.padding = '10px';
+  element.style.position = 'relative';
+  element.style.marginTop = '-30px';
+  element.style.backgroundColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
+  element.style.fontFamily = 'Cantata One, sans-serif';
+  element.style.fontSize = '20px';
+  element.style.color = 'white';
+  element.style.boxShadow = '0px 20px 40px rgba(0, 0, 0, 0.19), 0px 16px 6px rgba(0, 0, 0, 0.23)';
+  element.style.fontSize = '40px';
+  element.className = 'elevate';
+}
+
+function createDeleteButton(newElement, newListItem) {
+  var deleteButton = document.createElement('button');
+  deleteButton.style.position = 'absolute';
+  deleteButton.style.right = '0';
+  deleteButton.style.top = '0';
+  deleteButton.style.backgroundColor = 'transparent';
+  deleteButton.style.border = 'none';
+
+  deleteButton.addEventListener('mouseover', function () {
+    deleteButton.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+  });
+
+  deleteButton.addEventListener('mouseout', function () {
+    deleteButton.style.boxShadow = '';
+  });
+
+  var icon = document.createElement('i');
+  icon.className = 'fa-solid fa-x';
+  icon.style.color = 'white';
+
+  deleteButton.appendChild(icon);
+
+  deleteButton.addEventListener('click', function(event) {
+    event.stopPropagation();
+    const subjectName = newElement.textContent;
+    Swal.fire({
+      title: '¿Estás seguro de querrer borrarlo?',
+      text: "Ya no hay vuelta atras!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'red',
+      cancelButtonColor: '#daa520',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('/borrar-materia', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ subjectName: subjectName })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            newElement.remove();
+            newListItem.remove();
+            Swal.fire('Eliminado!', 'El elemento ha sido eliminado.', 'success');
+          } else {
+            console.error('Error deleting subject:', data.message);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      }
+    });
+  });
+
+  return deleteButton;
+}
+
+addButton.addEventListener('click', function () {
+  const container = getOrCreateContainer();
 
   Swal.fire({
     title: 'Ingresa el nombre de la asignatura:',
@@ -49,110 +183,64 @@ addButton.addEventListener('click', function() {
     confirmButtonText: 'Aceptar',
     cancelButtonText: 'Cancelar',
     showCancelButton: true,
-    customClass:{
+    customClass: {
       title: 'my-title',
       input: 'my-input',
       confirmButton: 'my-confirm',
       container: 'my-container',
-      popup: 'my-popup',
-      cancelButton: 'my-cancel-button'
+      popup: 'my-popup'
     },
-    onOpen: () => {
-      const input = Swal.getInput();
-      input.addEventListener('focus', function() {
-        this.placeholder = '';
-      });
-      input.addEventListener('blur', function() {
-        this.placeholder = 'Nombre de la asignatura';
-      });
+    buttonsStyling: false,
+    preConfirm: (nombreMateria) => {
+      if (!nombreMateria) {
+        Swal.showValidationMessage('El nombre de la asignatura es obligatorio');
+      }
+      return nombreMateria;
     }
   }).then((result) => {
-    if (result.isConfirmed && result.value.trim() !== '') {
-      var name = result.value;
+    if (result.isConfirmed) {
       var newElement = document.createElement('div');
-      newElement.textContent = name;
+      newElement.textContent = result.value;
+      newElement.setAttribute('data-subject-name', result.value);
 
       var newListItem = document.createElement('li');
       newListItem.className = 'sidebar-item';
       var newLink = document.createElement('a');
       newLink.href = 'pagina_materia.html';
       newLink.className = 'sidebar-link';
-      newLink.textContent = name;
+      newLink.textContent = result.value;
       newListItem.appendChild(newLink);
 
       document.querySelector('#auth').appendChild(newListItem);
 
-      newElement.style.width = '400px';
-      newElement.style.height = '200px';
-      newElement.style.padding = '10px';
-      newElement.style.position = 'relative';
-      newElement.style.marginTop = '-30px';
-      newElement.style.backgroundColor = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
-      newElement.style.fontFamily = 'Cantata One, sans-serif';
-      newElement.style.fontSize = '20px';
-      newElement.style.color = 'white';
-      newElement.style.boxShadow = '0px 20px 40px rgba(0, 0, 0, 0.19), 0px 16px 6px rgba(0, 0, 0, 0.23)';
-      newElement.style.fontSize = '40px';
-      newElement.className = 'elevate';
+      styleNewElement(newElement);
 
-      newElement.addEventListener('click', function() {
+      newElement.addEventListener('click', function () {
         const bgColor = encodeURIComponent(newElement.style.backgroundColor);
-        const subjectName = encodeURIComponent(name);
+        const subjectName = encodeURIComponent(result.value);
         window.location.href = `pagina_materia.html?color=${bgColor}&name=${subjectName}`;
       });
 
-      var deleteButton = document.createElement('button');
-      deleteButton.style.position = 'absolute';
-      deleteButton.style.right = '0';
-      deleteButton.style.top = '0';
-      deleteButton.style.backgroundColor = 'transparent';
-      deleteButton.style.border = 'none';
+      var deleteButton = createDeleteButton(newElement, newListItem);
+      newElement.appendChild(deleteButton);
+      container.appendChild(newElement);
 
-      deleteButton.addEventListener('mouseover', function() {
-        deleteButton.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
-      });
-
-      deleteButton.addEventListener('mouseout', function() {
-        deleteButton.style.boxShadow = '';
-      });
-
-      var icon = document.createElement('i');
-      icon.className = 'fa-solid fa-x';
-      icon.style.color = 'white';
-
-      deleteButton.appendChild(icon);
-
-      deleteButton.addEventListener('click', function(event) {
-        event.stopPropagation();
-        Swal.fire({
-          title: '¿Estás seguro de querrer borrarlo?',
-          text: "Ya no hay vuelta atras !",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: 'red',
-          cancelButtonColor: '#daa520',
-          confirmButtonText: 'Borrar',
-          cancelButtonText: 'Cancelar'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            newElement.remove();
-            newListItem.remove();
-            if (container.children.length === 0) {
-              container.remove();
-              containers.pop();
-            }
-            Swal.fire(
-              'Eliminado!',
-              'El elemento ha sido eliminado.',
-              'success'
-            )
+      fetch('/materias', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nombre_materia: result.value })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log('Subject added successfully:', data.nombre_materia);
+          } else {
+            console.error('Error adding subject:', data.message);
           }
         })
-      });
-
-      newElement.appendChild(deleteButton);
-
-      container.appendChild(newElement);
+        .catch(error => console.error('Error:', error));
     }
   });
 });

@@ -95,7 +95,7 @@ img
     border: none;
     font-size: 16px;
     padding-left: 15px;
-    top: 205px;
+    top: 180px;
 }
 
 .password {
@@ -116,23 +116,25 @@ img
 }
     .figura .mensaje-correo {
     position: absolute;
-    top: 150px; /* Ajusta este valor según tus necesidades */
-    left: 0;
+    top: 140px;
+    left: 50%;
     width: 100%;
     margin-left: 70px;
+    transform: translateX(-50%);
     }
 
     .figura .mensaje-password {
         position: absolute;
-        top: 270px; /* Ajusta este valor según tus necesidades */
-        left: 0;
+        top: 230px;
+        left: 50%;
         width: 100%;
-        margin-left: -80px;
-        text-align: center;
+        transform: translateX(-50%);      
+        margin-left: 70px;
+
     }
     .figura .olvidada-password {
         position: absolute;
-        top: 555px;
+        top: 500px;
         left: 50%;
         width: 100%;
         font-size: 13px;
@@ -169,3 +171,14 @@ img
       .password:focus, .Correo:focus {
         animation: breathe 2s infinite;
       }
+
+      .mensaje-error {
+        position: absolute;
+        top: 315px;
+        left: 50%;
+        font-size: 15px;
+        transform: translateX(-50%);
+        color: rgb(227, 223, 223);
+        display: none;
+        text-align: center;
+    }
